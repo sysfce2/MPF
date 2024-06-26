@@ -12,6 +12,31 @@
 - Enable last runtime by default
 - Update README with new build matricies
 - Remove empty gitmodules
+- Purple
+- Separate themes into own namespace and files
+- Seal all theme classes
+- Add preliminary MPF.CLI
+- Add CLI build status to README
+- Add CLI information to README
+- Save default config values for CLI
+- Allow custom parameters for CLI
+- Load options before anything else
+- Dispose of stream when creating config
+- Try to make config safer for CLI
+- Blindly assume the path exists
+- Add CLI status output on runtime
+- Ensure tracks are assigned in Aaru
+- Custom theme colors
+- Use speed for CLI from configuration
+- Fix minimum number of args checks
+- Move GetDefaultSpeedForMediaType to common location
+- Move some Check-specific methods
+- Add some custom CLI parameters
+- Try out custom options classes
+- Simplify custom parameters warning
+- Fix CLI help text alignment
+- Bring Check and CLI in parity with param processing
+- Remove now-unncessary names
 
 ### 3.2.0 (2024-06-20)
 

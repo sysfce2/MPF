@@ -35,7 +35,7 @@ namespace MPF.Frontend
         /// <summary>
         /// Drive object representing the current drive
         /// </summary>
-        private readonly Drive? _drive;
+        private Drive? _drive;
 
         /// <summary>
         /// ExecutionContext object representing how to invoke the internal program
@@ -119,7 +119,7 @@ namespace MPF.Frontend
         /// <param name="internalProgram"></param>
         /// <param name="parameters"></param>
         public DumpEnvironment(Frontend.Options options,
-            string outputPath,
+            string ?outputPath,
             Drive? drive,
             RedumpSystem? system,
             MediaType? type,
@@ -194,11 +194,15 @@ namespace MPF.Frontend
                 _ => null,
             };
 
-            // Set system and type
+            // Set system, type, and drive
             if (_executionContext != null)
             {
                 _executionContext.System = _system;
                 _executionContext.Type = _type;
+
+                // Set some parameters, if not already set
+                OutputPath ??= _executionContext.OutputPath!;
+                _drive ??= Drive.Create(InternalDriveType.Optical, _executionContext.InputPath!);
             }
 
             return _executionContext != null;

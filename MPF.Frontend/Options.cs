@@ -84,6 +84,33 @@ namespace MPF.Frontend
         }
 
         /// <summary>
+        /// Enable purple mode for UI elements
+        /// </summary>
+        public bool EnablePurpMode
+        {
+            get { return GetBooleanSetting(Settings, "EnablePurpMode", false); }
+            set { Settings["EnablePurpMode"] = value.ToString(); }
+        }
+
+        /// <summary>
+        /// Custom color setting
+        /// </summary>
+        public string? CustomBackgroundColor
+        {
+            get { return GetStringSetting(Settings, "CustomBackgroundColor", null); }
+            set { Settings["CustomBackgroundColor"] = value; }
+        }
+
+        /// <summary>
+        /// Custom color setting
+        /// </summary>
+        public string? CustomTextColor
+        {
+            get { return GetStringSetting(Settings, "CustomTextColor", null); }
+            set { Settings["CustomTextColor"] = value; }
+        }
+
+        /// <summary>
         /// Check for updates on startup
         /// </summary>
         public bool CheckForUpdatesOnStartup
