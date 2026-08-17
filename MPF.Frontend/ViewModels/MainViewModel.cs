@@ -1221,6 +1221,12 @@ namespace MPF.Frontend.ViewModels
         /// always correct as an unresolved path should never be able to be run anyway.
         private DumpEnvironment DetermineEnvironment(bool resolveProgramPaths)
         {
+            // Cache the existing dumping paths
+            string aaruPath = Options.Dumping.AaruPath;
+            string dicPath = Options.Dumping.DiscImageCreatorPath;
+            string dreamdumpPath = Options.Dumping.DreamdumpPath;
+            string redumperPath = Options.Dumping.RedumperPath;
+
             // Resolve the program paths temporarily, if requested
             if (resolveProgramPaths)
             {
@@ -1228,33 +1234,33 @@ namespace MPF.Frontend.ViewModels
                 {
                     // Dumping supported programs
                     case InternalProgram.Aaru:
-                        string? aaruPath = Options.Dumping.AaruPath.ResolvePath();
-                        if (aaruPath is not null)
-                            Options.Dumping.AaruPath = aaruPath;
+                        string? aaruPathResolved = Options.Dumping.AaruPath.ResolvePath();
+                        if (aaruPathResolved is not null)
+                            Options.Dumping.AaruPath = aaruPathResolved;
 
                         VerboseLogLn($"Using Aaru from {Options.Dumping.AaruPath}");
                         break;
 
                     case InternalProgram.DiscImageCreator:
-                        string? dicPath = Options.Dumping.DiscImageCreatorPath.ResolvePath();
-                        if (dicPath is not null)
-                            Options.Dumping.DiscImageCreatorPath = dicPath;
+                        string? dicPathResolved = Options.Dumping.DiscImageCreatorPath.ResolvePath();
+                        if (dicPathResolved is not null)
+                            Options.Dumping.DiscImageCreatorPath = dicPathResolved;
 
                         VerboseLogLn($"Using DiscImageCreator from {Options.Dumping.DiscImageCreatorPath}");
                         break;
 
                     case InternalProgram.Dreamdump:
-                        string? dreamdumpPath = Options.Dumping.DreamdumpPath.ResolvePath();
-                        if (dreamdumpPath is not null)
-                            Options.Dumping.DreamdumpPath = dreamdumpPath;
+                        string? dreamdumpPathResolved = Options.Dumping.DreamdumpPath.ResolvePath();
+                        if (dreamdumpPathResolved is not null)
+                            Options.Dumping.DreamdumpPath = dreamdumpPathResolved;
 
                         VerboseLogLn($"Using Dreamdump from {Options.Dumping.DreamdumpPath}");
                         break;
 
                     case InternalProgram.Redumper:
-                        string? redumperPath = Options.Dumping.RedumperPath.ResolvePath();
-                        if (redumperPath is not null)
-                            Options.Dumping.RedumperPath = redumperPath;
+                        string? redumperPathResolved = Options.Dumping.RedumperPath.ResolvePath();
+                        if (redumperPathResolved is not null)
+                            Options.Dumping.RedumperPath = redumperPathResolved;
 
                         VerboseLogLn($"Using Redumper from {Options.Dumping.RedumperPath}");
                         break;
@@ -1276,6 +1282,7 @@ namespace MPF.Frontend.ViewModels
                 }
             }
 
+            // Create the new environment
             var env = new DumpEnvironment(
                 Options,
                 EvaluateOutputPath(OutputPath),
@@ -1284,6 +1291,13 @@ namespace MPF.Frontend.ViewModels
                 CurrentProgram);
             env.SetExecutionContext(CurrentPhysicalMediaType, Parameters);
             env.SetProcessor();
+
+            // Reset the dumping program paths, just in case
+            Options.Dumping.AaruPath = aaruPath;
+            Options.Dumping.DiscImageCreatorPath = dicPath;
+            Options.Dumping.DreamdumpPath = dreamdumpPath;
+            Options.Dumping.RedumperPath = redumperPath;
+
             return env;
         }
 
