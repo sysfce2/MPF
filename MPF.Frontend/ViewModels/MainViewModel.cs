@@ -953,12 +953,16 @@ namespace MPF.Frontend.ViewModels
         /// <param name="newOptions">Options representing the new, saved values</param>
         public void UpdateOptions(bool savedSettings, Options? newOptions)
         {
-            // Get which options to save
+             // Get which options to save
             var optionsToSave = savedSettings ? newOptions : Options;
 
-            // Ensure the first run flag is unset
-            var continuingOptions = new Options(optionsToSave) { FirstRun = false };
-            Options = new Options(continuingOptions);
+            // Save the settings to disk if set to or on first run
+            if (savedSettings || optionsToSave?.FirstRun != false)
+            {
+                // Ensure the first run flag is unset
+                var continuingOptions = new Options(optionsToSave) { FirstRun = false };
+                Options = new Options(continuingOptions);
+            }
 
             // If settings were changed, reinitialize the UI
             if (savedSettings)

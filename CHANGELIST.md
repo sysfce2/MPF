@@ -4,6 +4,7 @@
 - Ensure that EDC has proper visibility
 - Ensure label side placeholders for Wii
 - Ensure path resolution is temporary
+- Better options saving behavior
 
 ### 3.9.0 (2026-07-31)
 

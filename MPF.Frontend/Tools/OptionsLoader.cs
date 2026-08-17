@@ -66,17 +66,25 @@ namespace MPF.Frontend.Tools
             if (string.IsNullOrEmpty(ConfigurationPath))
                 return;
 
-            // Ensure the output directory has been created
-            string? parentDirectory = Path.GetDirectoryName(ConfigurationPath);
-            if (parentDirectory is not null)
-                Directory.CreateDirectory(parentDirectory);
+            try
+            {
+                // Ensure the output directory has been created
+                string? parentDirectory = Path.GetDirectoryName(ConfigurationPath);
+                if (parentDirectory is not null)
+                    Directory.CreateDirectory(parentDirectory);
 
-            var serializer = JsonSerializer.Create();
-            var stream = File.Open(ConfigurationPath, FileMode.Create, FileAccess.Write, FileShare.None);
-            using var sw = new StreamWriter(stream) { AutoFlush = true };
-            var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented };
+                var serializer = JsonSerializer.Create();
+                var stream = File.Open(ConfigurationPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                using var sw = new StreamWriter(stream) { AutoFlush = true };
+                var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented };
 
-            serializer.Serialize(writer, ConvertToDictionary(options), typeof(Dictionary<string, string>));
+                serializer.Serialize(writer, ConvertToDictionary(options), typeof(Dictionary<string, string>));
+            }
+            catch
+            {
+                // No-op
+                // TODO: Have this throw an error or make the save return a bool
+            }
         }
 
         /// <summary>
@@ -88,21 +96,29 @@ namespace MPF.Frontend.Tools
             if (string.IsNullOrEmpty(ConfigurationPath))
                 return;
 
-            // Ensure the output directory has been created
-            string? parentDirectory = Path.GetDirectoryName(ConfigurationPath);
-            if (parentDirectory is not null)
-                Directory.CreateDirectory(parentDirectory);
+            try
+            {
+                // Ensure the output directory has been created
+                string? parentDirectory = Path.GetDirectoryName(ConfigurationPath);
+                if (parentDirectory is not null)
+                    Directory.CreateDirectory(parentDirectory);
 
-            var serializer = JsonSerializer.Create();
-            serializer.DefaultValueHandling = DefaultValueHandling.Include;
-            serializer.MissingMemberHandling = MissingMemberHandling.Error; // TODO: Change to Ignore when using consistently
-            serializer.NullValueHandling = NullValueHandling.Include;
+                var serializer = JsonSerializer.Create();
+                serializer.DefaultValueHandling = DefaultValueHandling.Include;
+                serializer.MissingMemberHandling = MissingMemberHandling.Error; // TODO: Change to Ignore when using consistently
+                serializer.NullValueHandling = NullValueHandling.Include;
 
-            var stream = File.Open(ConfigurationPath, FileMode.Create, FileAccess.Write, FileShare.None);
-            using var sw = new StreamWriter(stream) { AutoFlush = true };
-            var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented };
+                var stream = File.Open(ConfigurationPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                using var sw = new StreamWriter(stream) { AutoFlush = true };
+                var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented };
 
-            serializer.Serialize(writer, options, typeof(Options));
+                serializer.Serialize(writer, options, typeof(Options));
+            }
+            catch
+            {
+                // No-op
+                // TODO: Have this throw an error or make the save return a bool
+            }
         }
 
         /// <summary>
