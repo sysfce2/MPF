@@ -5,6 +5,7 @@
 - Ensure label side placeholders for Wii
 - Ensure path resolution is temporary
 - Better options saving behavior
+- Update RedumpLib to 3.2.0
 
 ### 3.9.0 (2026-07-31)
 
