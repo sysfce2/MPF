@@ -138,11 +138,25 @@ namespace MPF.UI.UserControls
         /// </summary>
         private void SaveInlines()
         {
-            using var sw = new StreamWriter(File.OpenWrite("console.log"));
-            foreach (var inline in _paragraph.Inlines)
+            try
             {
-                if (inline is Run run)
-                    sw.Write(run.Text);
+                string logPath = Path.Combine(Environment.CurrentDirectory, "console.log");
+
+                // Ensure the output directory has been created
+                string? parentDirectory = Path.GetDirectoryName(logPath);
+                if (parentDirectory is not null)
+                    Directory.CreateDirectory(parentDirectory);
+
+                using var sw = new StreamWriter(File.Open(logPath, FileMode.Create, FileAccess.Write, FileShare.Read));
+                foreach (var inline in _paragraph.Inlines)
+                {
+                    if (inline is Run run)
+                        sw.Write(run.Text);
+                }
+            }
+            catch
+            {
+                // TODO: Report to user that the writing failed
             }
         }
 

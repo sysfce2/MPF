@@ -6,6 +6,7 @@
 - Ensure path resolution is temporary
 - Better options saving behavior
 - Update RedumpLib to 3.2.0
+- Make log file saving less likely to cause issues
 
 ### 3.9.0 (2026-07-31)
 

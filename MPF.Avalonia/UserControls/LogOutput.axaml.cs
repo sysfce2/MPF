@@ -103,25 +103,32 @@ namespace MPF.Avalonia.UserControls
 
         private async void OnSaveButton(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
         {
-            string logPath = "console.log";
-            if (!OperatingSystem.IsWindows() && this.GetVisualRoot() is Window owner)
+            try
             {
-                string? directory = await DialogService.OpenFolderAsync(owner, "Save Log");
-                if (string.IsNullOrWhiteSpace(directory))
-                    return;
+                string logPath = "console.log";
+                if (!OperatingSystem.IsWindows() && this.GetVisualRoot() is Window owner)
+                {
+                    string? directory = await DialogService.OpenFolderAsync(owner, "Save Log");
+                    if (string.IsNullOrWhiteSpace(directory))
+                        return;
 
-                logPath = Path.Combine(directory, "console.log");
+                    logPath = Path.Combine(directory, "console.log");
+                }
+
+                // Ensure the output directory has been created
+                string? parentDirectory = Path.GetDirectoryName(logPath);
+                if (parentDirectory is not null)
+                    Directory.CreateDirectory(parentDirectory);
+
+                using var writer = new StreamWriter(File.Open(logPath, FileMode.Create, FileAccess.Write, FileShare.Read));
+                foreach (LogEntry entry in Entries)
+                {
+                    writer.WriteLine(entry.Text);
+                }
             }
-
-            // Ensure the output directory has been created
-            string? parentDirectory = Path.GetDirectoryName(logPath);
-            if (parentDirectory is not null)
-                Directory.CreateDirectory(parentDirectory);
-
-            using var writer = new StreamWriter(File.Open(logPath, FileMode.Create, FileAccess.Write, FileShare.Read));
-            foreach (LogEntry entry in Entries)
+            catch
             {
-                writer.WriteLine(entry.Text);
+                // TODO: Report to user that the writing failed
             }
         }
 
