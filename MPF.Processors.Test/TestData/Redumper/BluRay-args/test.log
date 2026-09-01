@@ -1,0 +1,2 @@
+<< GetDiscType >>
+arguments: disc --drive-type=GENERIC --disc-type=BLURAY --another-param
