@@ -1195,6 +1195,25 @@ namespace MPF.Processors
                 var line = sr.ReadLine()?.TrimEnd();
                 while (line is not null)
                 {
+                    // Special case for overridden disc type in the commandline
+                    if (line.StartsWith("arguments:") && line.Contains("--disc-type="))
+                    {
+                        var match = Regex.Match(line, @"--disc-type=(\S*)");
+                        string? discTypeParam = match?.Groups?[1]?.Value;
+                        switch (discTypeParam)
+                        {
+                            case "CD": discType = PhysicalMediaType.CDROM; break;
+                            case "DVD": discType = PhysicalMediaType.DVD; break;
+                            case "BLURAY": discType = PhysicalMediaType.BluRay; break;
+                            case "BLURAY-R": discType = PhysicalMediaType.BluRay; break;
+                            case "HD-DVD": discType = PhysicalMediaType.HDDVD; break;
+                            default: break;
+                        }
+
+                        if (discType is not null)
+                            return true;
+                    }
+
                     // If the line isn't the non-embedded disc type, skip
                     if (!line.StartsWith("disc type:"))
                     {

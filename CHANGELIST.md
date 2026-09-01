@@ -7,6 +7,7 @@
 - Better options saving behavior
 - Update RedumpLib to 3.2.0
 - Make log file saving less likely to cause issues
+- Handle overridden disc types for Redumper
 
 ### 3.9.0 (2026-07-31)
 

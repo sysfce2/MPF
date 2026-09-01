@@ -484,6 +484,16 @@ namespace MPF.Processors.Test
         }
 
         [Fact]
+        public void GetDiscType_BD_FromArguments_Filled()
+        {
+            PhysicalMediaType? expected = PhysicalMediaType.BluRay;
+            string log = Path.Combine(Environment.CurrentDirectory, "TestData", "Redumper", "BluRay-args", "test.log");
+            bool actual = Redumper.GetDiscType(log, out PhysicalMediaType? discType);
+            Assert.True(actual);
+            Assert.Equal(expected, discType);
+        }
+
+        [Fact]
         public void GetDiscType_BDR_Filled()
         {
             PhysicalMediaType? expected = PhysicalMediaType.BluRay;
