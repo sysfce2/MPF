@@ -9,6 +9,7 @@
 - Make log file saving less likely to cause issues
 - Handle overridden disc types for Redumper
 - Fix including test log for previous change
+- Update packages
 
 ### 3.9.0 (2026-07-31)
 
